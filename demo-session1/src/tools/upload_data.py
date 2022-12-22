@@ -18,9 +18,9 @@ args = parser.parse_args()
 input_data = Path(args.input_data)
 table_name = args.table_name
 
+# get data and create db schema
 df = get_data(input_data)
 col_type, values = create_db_schema(df)
-
 
 # read mysql password
 env_path = Path("./.env")
@@ -45,6 +45,7 @@ if args.create_db:
             #conn.close()
     except Error as e:
         print("Error while connecting to MySQL", e)
+# create a table in the database
 else:
     try:
         conn = msql.connect(host='localhost',
@@ -60,10 +61,8 @@ else:
             
             #loop through the data frame
             for i,row in df.iterrows():
-                #here %S means string values
                 sql = f'INSERT INTO groceries.{table_name} VALUES ({values})'
-                cursor.execute(sql, tuple(row))
-                # the connection is not auto committed by default, so we must commit to save our changes
+                cursor.execute(sql, tuple(row))                
                 conn.commit()
             print("Record inserted")
     except Error as e:
