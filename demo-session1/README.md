@@ -14,6 +14,6 @@ First create a database:
 
 ```python -m src/tools/upload_data.py -db True```
 
-Then you can create as many tables as you like within the database and insert data from CSV files. As an examples, insert sales data to databse:
+Then you can create as many tables as you like within the database and insert data from CSV files. As an examples, insert sales data to database:
 
 ```python src/tools/upload_data.py -d "data/sales.csv" -t "sales" ```
