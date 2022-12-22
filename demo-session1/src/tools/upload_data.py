@@ -1,12 +1,11 @@
-import os
 import argparse
+import os
 from pathlib import Path
 
 import mysql.connector as msql
 from dotenv import load_dotenv
 from mysql.connector import Error
-
-from utils import get_data, create_db_schema
+from utils import create_db_schema, get_data
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--input_data", help="provide path to input data", required=True, type=str)

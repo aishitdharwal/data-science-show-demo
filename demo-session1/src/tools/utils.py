@@ -1,6 +1,8 @@
-import pandas as pd
-from typing import Tuple
 import pathlib
+from typing import Tuple
+
+import pandas as pd
+
 
 def get_data(input_data: pathlib.Path) -> pd.DataFrame:
     """Returns csv data as a dataframe
