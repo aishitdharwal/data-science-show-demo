@@ -8,18 +8,10 @@ from mysql.connector import Error
 from utils import create_db_schema, get_data
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-d", "--input_data", help="provide path to input data", required=True, type=str)
+parser.add_argument("-d", "--input_data", help="provide path to input data", type=str)
 parser.add_argument("-db", "--create_db", help="create db or not", default=False, type=bool)
 parser.add_argument("-t", "--table_name", help="provide table name", type=str)
 args = parser.parse_args()
-
-# define variables
-input_data = Path(args.input_data)
-table_name = args.table_name
-
-# get data and create db schema
-df = get_data(input_data)
-col_type, values = create_db_schema(df)
 
 # read mysql password
 env_path = Path("./.env")
@@ -46,6 +38,13 @@ if args.create_db:
         print("Error while connecting to MySQL", e)
 # create a table in the database
 else:
+    # define variables
+    input_data = Path(args.input_data)
+    table_name = args.table_name
+
+    # get data and create db schema
+    df = get_data(input_data)
+    col_type, values = create_db_schema(df)
     try:
         conn = msql.connect(host='localhost',
                             user='root',
