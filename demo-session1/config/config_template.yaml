@@ -1,7 +1,12 @@
 ---
-create_database:
-  database: # boolean, to create database 
-  
-csv-to-database:
-  input_data: # path to csv file
-  table_name: # table to create in database
+Description: |
+  Available params by tasks, with usuage samples.
+  Feel free to add new process example with comments, with the parameter in the first position
+  then the following in alphabetical order
+
+csv-to-database: # TASK NAME
+  import: # WHETHER YOU ARE IMPORTING OR EXPORTING DATA
+    - import:
+        dirpath: # FULL PATH TO INPUT DATA FOLDER
+        file_extension: # FILE EXTENSION
+        prefix_filename: # ORIGINAL FILENAME FROM THE INPUT DATA FOLDER
