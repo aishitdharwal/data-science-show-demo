@@ -1,0 +1,7 @@
+---
+create_database:
+  database: # boolean, to create database 
+  
+csv-to-database:
+  input_data: # path to csv file
+  table_name: # table to create in database

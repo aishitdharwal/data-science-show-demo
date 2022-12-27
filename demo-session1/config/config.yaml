@@ -1,0 +1,11 @@
+---
+csv-to-database:
+  import:
+    - import:
+        dirpath: /Users/mits/Desktop/coursera/weekly_projects/data-science-show-demo/demo-session1/data/
+        file_extension: csv 
+        prefix_filename: sensor_storage_temperature
+    - import:
+        dirpath: data/
+        file_extension: csv 
+        prefix_filename: sensor_stock_levels
