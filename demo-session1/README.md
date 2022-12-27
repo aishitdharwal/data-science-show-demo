@@ -62,3 +62,13 @@ ___
 > - -db : Whether to create database or not (bool)
 >    
 > - -t : task name (str)
+
+<br>
+
+___
+
+## Illustration
+
+<br>
+
+![illustration](https://user-images.githubusercontent.com/120341649/209677377-170b27ab-ae45-4b36-b614-56aec51c6062.png)
