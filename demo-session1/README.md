@@ -28,3 +28,6 @@ ___
 > - -d : input data path (str)
 >    
 > - -t : table name to create (str)
+
+## Illustration
+![illustration](https://user-images.githubusercontent.com/120341649/209677377-170b27ab-ae45-4b36-b614-56aec51c6062.png)
