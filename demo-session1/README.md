@@ -49,7 +49,7 @@ ___
 
 2. Create as many tables as you like within the database and insert data from each CSV files into their respective tables by running a single python command.
 
-    As an example, let's say we create a database `groceries` by running the above command. We then define tasks in the `config.yaml` file. Task in this case are simply a list to tables we would like to create in our database and path to CSV files for each table. Look at the  [config_template.yaml](demo-session1/config/config_template.yaml) for more details on how to structure each tasks. 
+    As an example, let's say we create a database `groceries` by running the above command. We then define tasks in the `config.yaml` file. Task in this case are simply a list to tables we would like to create in our database and path to CSV files for each table. Look at the `config_template.yaml` for more details on how to structure each tasks. 
 
     Finally, we can run the following line by providing a task name as an argument. 
 
