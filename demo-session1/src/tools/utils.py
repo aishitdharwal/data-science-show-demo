@@ -1,5 +1,7 @@
 import pathlib
+import yaml
 from typing import Tuple
+from pathlib import PurePath
 
 import pandas as pd
 
@@ -41,3 +43,19 @@ def create_db_schema(df: pd.DataFrame) -> Tuple[str, str]:
     col_type = ', '.join(col_type)
     values = ', '.join(['%s' for _ in range(len(df.columns))])
     return col_type, values
+
+def load_yaml(file_path: str):
+    """This function loads a yaml file and outputs the file as a dict
+
+    Args:
+        file_path (str): path of the name where yaml file is
+        
+    Output:
+        returns a dict of params
+    """
+    with open(file_path, 'r') as f:
+        return yaml.load(f, Loader=yaml.FullLoader)
+
+def get_path(*args):
+    return PurePath(*args).as_posix()
+        
