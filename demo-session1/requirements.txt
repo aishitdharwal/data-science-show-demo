@@ -1,0 +1,6 @@
+mysql-connector-python
+pandas
+python-dotenv
+pathlib
+pathlib
+PyYAML
