@@ -14,6 +14,7 @@ pipeline {
                     echo "Installing dependencies....."
                 
                     cd demo-session1
+                    make venv
                     make install
                 ''')
             }
