@@ -32,7 +32,7 @@ if args.create_db:
                             password=mysql_pass)
         if conn.is_connected():
             cursor = conn.cursor()
-            cursor.execute('DROP DATABASE IF EXISTS groceries')
+            cursor.execute(f'DROP DATABASE IF EXISTS {args.db_name}')
             cursor.execute(f'CREATE DATABASE {args.db_name}')
             print("Database is created")
             cursor.execute('SHOW DATABASES')
