@@ -34,10 +34,10 @@ if args.create_db:
             cursor = conn.cursor()
             cursor.execute(f'DROP DATABASE IF EXISTS {args.db_name}')
             cursor.execute(f'CREATE DATABASE {args.db_name}')
-            print("Database is created")
+            print(f"Database is created: {args.db_name}")
             cursor.execute('SHOW DATABASES')
-            record = cursor.fetchone()
-            print("You're connected to database: ", record)
+            record = cursor.fetchall()
+            print("Databases exist: ", record)
     except Error as e:
         print("Error while connecting to MySQL", e)
 # create a table in the database -----------
@@ -59,7 +59,7 @@ else:
                                 password=mysql_pass)
             if conn.is_connected():
                 cursor = conn.cursor()
-                cursor.execute('USE groceries')
+                cursor.execute(f'USE {args.db_name}')
                 cursor.execute(f'DROP TABLE IF EXISTS {table_name};')
                 print(f"Creating table {table_name}....")
                 cursor.execute(f'CREATE TABLE {table_name}({col_type})')
