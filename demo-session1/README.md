@@ -7,7 +7,7 @@
 Make sure to have `MYSQL` installed on your laptop. Create a user with 
 `host='localhost', user='root'` and your password. Don't forgot to store your password in a `.env` file which needs to be inside the project directory. Define the password variable in the file as follows:
 
->>> ```MYSQL_PASS=YOUR_PASSWORD```
+>>> ``` MYSQL_PASS=YOUR_PASSWORD ```
 
 <br>
 
@@ -19,11 +19,11 @@ ___
 
 1. First create a database:
 
-            ```python -m src/tools/upload_data.py -db True```
+            ``` python -m src/tools/upload_data.py -db True ```
 
 2. Create as many tables as you like within the database, and insert data from CSV files. Run the following command to create each table with their respective data. As an example, let's create `sales` table in our database and upload data from a csv file into it:
 
-            ```python src/tools/upload_data.py -d "data/sales.csv" -t "sales" ```
+            ``` python src/tools/upload_data.py -d "data/sales.csv" -t "sales" ```
 
 <br>
 
@@ -45,7 +45,7 @@ ___
 
 1. First create a database:
 
-            ```python -m src/tools/upload_data_V2.py -db True```
+            ``` python -m src/tools/upload_data_V2.py -db True -db_name 'groceries' ```
 
 2. Create as many tables as you like within the database and insert data from each CSV files into their respective tables by running a single python command.
 
@@ -53,7 +53,7 @@ ___
 
     Finally, we can run the following line by providing a task name as an argument. 
 
-            ```python src/tools/upload_data_V2.py -t "csv-to-database" ```
+            ``` python src/tools/upload_data_V2.py -t "csv-to-database" ```
 
 ___
 
@@ -61,7 +61,10 @@ ___
 >
 > - -db : Whether to create database or not (bool)
 >    
+> - -db_name : database name (str)
+>
 > - -t : task name (str)
+
 
 <br>
 

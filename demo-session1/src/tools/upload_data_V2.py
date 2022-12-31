@@ -10,6 +10,7 @@ from utils import create_db_schema, get_data, load_yaml, get_path
 # extract the arguments --------------------------------------------------------------
 parser = argparse.ArgumentParser()
 parser.add_argument("-db", "--create_db", help="create db or not", default=False, type=bool)
+parser.add_argument("-db_name", "--db_name", help="database name", default=False, type=str)
 parser.add_argument("-t", "--task", help="this will point to a task \
                     location into the config.yaml file.", type=str)
 args = parser.parse_args()
@@ -32,7 +33,7 @@ if args.create_db:
         if conn.is_connected():
             cursor = conn.cursor()
             cursor.execute('DROP DATABASE IF EXISTS groceries')
-            cursor.execute('CREATE DATABASE groceries')
+            cursor.execute(f'CREATE DATABASE {args.db_name}')
             print("Database is created")
             cursor.execute('SHOW DATABASES')
             record = cursor.fetchone()
