@@ -43,7 +43,7 @@ if args.create_db:
 # create a table in the database -----------
 else:
     # loop through each task in config.yaml 
-    args_task = 'csv-to-database'
+    #args_task = 'cleaned_csv-to-database'
     config_import = config[args.task]["import"]
     for i in range(len(config_import)):
         input_data = get_path(config_import[i]["import"]["dirpath"], 

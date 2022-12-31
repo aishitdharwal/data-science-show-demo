@@ -16,7 +16,7 @@ def get_data(input_data: pathlib.Path) -> pd.DataFrame:
         pd.DataFrame: dataframe
     """
     df = pd.read_csv(input_data, index_col=False, delimiter = ',')
-    df.drop(columns=['Unnamed: 0'], inplace=True)
+    df.drop(columns=['Unnamed: 0'], inplace=True, axis=1, errors='ignore')
     return df
 
 def create_db_schema(df: pd.DataFrame) -> Tuple[str, str]:
