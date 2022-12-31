@@ -18,7 +18,8 @@ pipeline {
                     pip install -r requirements.txt
                 ''')
             }
-        stage('Install dependencies') {
+        }
+        stage('Build') {
             steps {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-demo', url: 'https://github.com/mitulds/data-science-show-demo.git']]) 
                 sh('''
@@ -28,5 +29,6 @@ pipeline {
                 ''')
             }
         }
+
     }
 }
