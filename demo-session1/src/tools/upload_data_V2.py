@@ -5,7 +5,7 @@ from pathlib import Path
 import mysql.connector as msql
 from dotenv import load_dotenv
 from mysql.connector import Error
-from utils import create_db_schema, get_data, load_yaml, get_path
+from utils import create_db_schema, get_data, get_path, load_yaml
 
 # extract the arguments --------------------------------------------------------------
 parser = argparse.ArgumentParser()

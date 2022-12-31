@@ -1,9 +1,10 @@
+import os
 import pathlib
-import yaml
-from typing import Tuple
 from pathlib import PurePath
+from typing import Tuple, Union
 
 import pandas as pd
+import yaml
 
 
 def get_data(input_data: pathlib.Path) -> pd.DataFrame:
@@ -56,6 +57,14 @@ def load_yaml(file_path: str):
     with open(file_path, 'r') as f:
         return yaml.load(f, Loader=yaml.FullLoader)
 
-def get_path(*args):
+def get_path(*args: Union[str, os.PathLike]) -> str:
+    """Build a path from path fragments.
+
+    Args:
+        Args: should be of type str or one of pathlib.Path flavors.
+        
+    Returns:
+        str: normalized path
+    """
     return PurePath(*args).as_posix()
         
