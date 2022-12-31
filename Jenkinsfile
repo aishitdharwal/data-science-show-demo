@@ -14,7 +14,7 @@ pipeline {
                     echo "Installing dependencies....."
                 
                     cd demo-session1
-                    python3 install --upgrade pip
+                    pip install --upgrade pip
                     
                 ''')
             }
