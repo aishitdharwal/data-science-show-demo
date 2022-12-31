@@ -67,7 +67,7 @@ else:
                 
                 #loop through the data frame
                 for i,row in df.iterrows():
-                    sql = f'INSERT INTO groceries.{table_name} VALUES ({values})'
+                    sql = f'INSERT INTO {args.db_name}.{table_name} VALUES ({values})'
                     cursor.execute(sql, tuple(row))                
                     conn.commit()
                 print("Record inserted")
