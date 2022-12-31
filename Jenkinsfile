@@ -14,7 +14,7 @@ pipeline {
                     echo "Installing dependencies....."
                 
                     cd demo-session1
-                    apt-get update && apt- get install make
+                    apt-get install make
                     make install
                 ''')
             }
