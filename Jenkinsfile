@@ -25,7 +25,7 @@ pipeline {
                 sh('''
                     echo "build....."
                 
-                    python src/tools/upload_data_V2.py -db True
+                    python3 src/tools/upload_data_V2.py -db True
                 ''')
             }
         }
