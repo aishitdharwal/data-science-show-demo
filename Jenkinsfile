@@ -14,7 +14,6 @@ pipeline {
                     echo "Installing dependencies....."
                 
                     cd demo-session1
-                    apt-get install make
                     make install
                 ''')
             }
