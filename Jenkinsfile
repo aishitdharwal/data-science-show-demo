@@ -14,7 +14,7 @@ pipeline {
                     echo "Installing dependencies....."
                 
                     cd demo-session1
-                    sudo apt-get install build-essential
+                    apt-get update && apt- get install make
                     make install
                 ''')
             }
