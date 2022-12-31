@@ -9,7 +9,6 @@ pipeline {
         }
         stage('Install dependencies') {
             steps {
-                # checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-demo', url: 'https://github.com/mitulds/data-science-show-demo.git']]) 
                 sh('''
                     echo "Installing dependencies....."
                 
@@ -21,7 +20,6 @@ pipeline {
         }
         stage('Build'){
             steps {
-                # checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-demo', url: 'https://github.com/mitulds/data-science-show-demo.git']]) 
                 sh('''
                     echo "Building....."
                 
