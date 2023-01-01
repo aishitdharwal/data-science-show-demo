@@ -12,3 +12,5 @@ RUN apt-get update
 # install packages from requirements.txt
 RUN pip install --upgrade pip &&\
     pip install -r requirements.txt
+
+CMD ["echo", "hello world"]
