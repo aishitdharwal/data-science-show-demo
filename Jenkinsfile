@@ -1,13 +1,12 @@
 pipeline {
-    agent any
+    agent none
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-demo', url: 'https://github.com/mitulds/data-science-show-demo.git']])
-                sh 'echo "Checking git repo....."'
+        stage('Python'){
+            agent {
+                docker {
+                    image 'python:2-alpine'
+                }
             }
-        }
-        stage('Install dependencies') {
             steps {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-demo', url: 'https://github.com/mitulds/data-science-show-demo.git']]) 
                 sh('''
@@ -19,6 +18,14 @@ pipeline {
                 ''')
             }
         }
+
+        stage('Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-demo', url: 'https://github.com/mitulds/data-science-show-demo.git']])
+                sh 'echo "Checking git repo....."'
+            }
+        }
+
         stage('Build') {
             steps {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-demo', url: 'https://github.com/mitulds/data-science-show-demo.git']]) 
