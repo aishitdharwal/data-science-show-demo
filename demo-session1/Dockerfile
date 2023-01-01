@@ -1,16 +1,15 @@
-FROM python:3.7.3-alpine
+FROM python:3.8-slim-buster
 
 # working directory
-WORKDIR /demo-session1
+WORKDIR /demo-session
 
-# copy source code to working directory
-COPY . /demo-session1
+COPY requirements.txt requirements.txt
 
-# install apt-get
-RUN apt-get update
+RUN apt-get update && apt-get install pip
 
 # install packages from requirements.txt
-RUN pip install --upgrade pip &&\
-    pip install -r requirements.txt
+RUN pip install --upgrade pip
+
+COPY . .
 
 CMD ["echo", "hello world"]
