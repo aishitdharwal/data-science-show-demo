@@ -13,3 +13,18 @@ csv-to-database:
         dirpath: ./data/
         file_extension: csv 
         prefix_filename: sales
+
+cleaned_csv-to-database:
+  import:
+    - import:
+        dirpath: ./cleaned_data/
+        file_extension: csv 
+        prefix_filename: temp_agg
+    - import:
+        dirpath: ./cleaned_data/
+        file_extension: csv 
+        prefix_filename: stock_agg
+    - import:
+        dirpath: ./cleaned_data/
+        file_extension: csv 
+        prefix_filename: sales_agg
