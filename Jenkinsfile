@@ -34,6 +34,7 @@ pipeline {
             steps {
                 sh('''
                     echo "build 02....."
+                    cd demo-session1
                     python3 src/tools/upload_data_V2.py -db True -db_name 'groceries_cleaned'
                     python3 src/tools/upload_data_V2.py -db_name 'groceries_cleaned' -t 'cleaned_csv-to-database'
                 ''')
