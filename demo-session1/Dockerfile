@@ -1,15 +1,13 @@
 FROM python:3.8-slim-buster
 
-# working directory
-WORKDIR /demo-session
+# Copy the current dir to dir in the image
+COPY . /demo_session
 
-COPY requirements.txt requirements.txt
-
-RUN apt-get update && apt-get install pip
+# Set working dir
+WORKDIR /demo_session
 
 # install packages from requirements.txt
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip &&\
+    pip install -r requirements.txt
 
-COPY . .
-
-CMD ["echo", "hello world"]
+CMD ["python3", "main.py"]
