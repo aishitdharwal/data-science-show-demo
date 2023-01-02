@@ -2,9 +2,12 @@ import os
 import pathlib
 from pathlib import PurePath
 from typing import Tuple, Union
+from io import StringIO, BytesIO
 
 import pandas as pd
 import yaml
+import datetime
+import boto3
 
 
 def get_data(input_data: pathlib.Path) -> pd.DataFrame:
@@ -19,6 +22,7 @@ def get_data(input_data: pathlib.Path) -> pd.DataFrame:
     df = pd.read_csv(input_data, index_col=False, delimiter = ',')
     df.drop(columns=['Unnamed: 0'], inplace=True, axis=1, errors='ignore')
     return df
+
 
 def create_db_schema(df: pd.DataFrame) -> Tuple[str, str]:
     """Creates SQL column parameters and datatype from pandas dataframe.
@@ -45,6 +49,7 @@ def create_db_schema(df: pd.DataFrame) -> Tuple[str, str]:
     values = ', '.join(['%s' for _ in range(len(df.columns))])
     return col_type, values
 
+
 def load_yaml(file_path: str):
     """This function loads a yaml file and outputs the file as a dict
 
@@ -57,6 +62,7 @@ def load_yaml(file_path: str):
     with open(file_path, 'r') as f:
         return yaml.load(f, Loader=yaml.FullLoader)
 
+
 def get_path(*args: Union[str, os.PathLike]) -> str:
     """Build a path from path fragments.
 
@@ -67,4 +73,62 @@ def get_path(*args: Union[str, os.PathLike]) -> str:
         str: normalized path
     """
     return PurePath(*args).as_posix()
-        
+
+
+def aws_auth():
+    session=boto3.Session(region_name="us-east-1")
+    bucket = os.getenv("BUCKET")
+    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID")
+    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
+    return session, bucket, aws_access_key_id, aws_secret_access_key
+
+
+def upload_df_to_s3(df: pd.DataFrame, path: str):
+    
+    session, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
+    key = path + datetime.datetime.now().strftime("%Y-%m-%d") + ".csv"
+    
+    csv_buffer = StringIO()
+    df.to_csv(csv_buffer, index=False)
+    client = boto3.client('s3')
+    response = client.put_object(
+        ACL = 'private',
+        Body=csv_buffer.getvalue(),
+        Bucket = bucket,
+        Key=key
+    )
+    return response['ResponseMetadata']['HTTPStatusCode']
+
+
+def import_from_s3(filename: str):
+    session, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
+    region_name = "us-east-1"
+    s3 = boto3.resource(
+        service_name="s3",
+        region_name=region_name,
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key
+    )
+    
+    obj = s3.Bucket(bucket).Object(filename)
+    data=obj.get()['Body'].read()
+    df = pd.read_csv(BytesIO(data), header=0, delimiter=",", low_memory=False)\
+        .drop(columns=['Unnamed: 0'], axis=1, errors='ignore')
+    return df
+
+
+def check_all_files_s3():
+    session, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
+    region_name = "us-east-1"
+    s3 = boto3.resource(
+        service_name="s3",
+        region_name=region_name,
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key
+    )
+    bucket = s3.Bucket('ds-project-demo1')   
+    files = [filename.key for filename in bucket.objects.filter(Prefix='')]
+    return files
+
+
+
