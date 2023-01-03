@@ -3,6 +3,8 @@ import pathlib
 from pathlib import PurePath
 from typing import Tuple, Union
 from io import StringIO, BytesIO
+from pathlib import Path
+from dotenv import load_dotenv
 
 import pandas as pd
 import yaml
@@ -76,6 +78,8 @@ def get_path(*args: Union[str, os.PathLike]) -> str:
 
 
 def aws_auth():
+    env_path = Path("./.env")
+    load_dotenv(dotenv_path=env_path)
     session=boto3.Session(region_name="us-east-1")
     bucket = os.getenv("BUCKET")
     aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID")
@@ -83,10 +87,10 @@ def aws_auth():
     return session, bucket, aws_access_key_id, aws_secret_access_key
 
 
-def upload_df_to_s3(df: pd.DataFrame, path: str):
+def upload_df_to_s3(df: pd.DataFrame, filename_prefix: str):
     
     session, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
-    key = path + datetime.datetime.now().strftime("%Y-%m-%d") + ".csv"
+    key = filename_prefix + datetime.datetime.now().strftime("%Y-%m-%d") + ".csv"
     
     csv_buffer = StringIO()
     df.to_csv(csv_buffer, index=False)
