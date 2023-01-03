@@ -28,3 +28,10 @@ cleaned_csv-to-database:
         dirpath: ./cleaned_data/
         file_extension: csv 
         prefix_filename: sales_agg
+
+testing:
+  export:
+    - export:
+        host: s3
+        bucket: ds-project-demo1
+        prefix_filename: prediction_
