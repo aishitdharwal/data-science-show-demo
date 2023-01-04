@@ -4,7 +4,7 @@ import os
 import pathlib
 from io import BytesIO, StringIO
 from pathlib import Path, PurePath
-from typing import Tuple, Union
+from typing import List, Tuple, Union
 
 import boto3
 import gspread
@@ -81,6 +81,11 @@ def get_path(*args: Union[str, os.PathLike]) -> str:
 
 
 def aws_auth():
+    """Authenticate aws
+
+    Returns:
+        _type_: returns info
+    """
     env_path = Path("./.env")
     load_dotenv(dotenv_path=env_path)
     session=boto3.Session(region_name="us-east-1")
@@ -91,6 +96,15 @@ def aws_auth():
 
 
 def upload_df_to_s3(df: pd.DataFrame, filename_prefix: str):
+    """Upload dataframe to S3 as CSV
+
+    Args:
+        df (pd.DataFrame): dataframe to upload
+        filename_prefix (str): filename prefix
+
+    Returns:
+        _type_: Status Code
+    """
     
     _, bucket, _, _ = aws_auth()
     key = filename_prefix + datetime.datetime.now().strftime("%Y-%m-%d") + ".csv"
@@ -107,7 +121,15 @@ def upload_df_to_s3(df: pd.DataFrame, filename_prefix: str):
     return response['ResponseMetadata']['HTTPStatusCode']
 
 
-def import_from_s3(filename: str):
+def import_from_s3(filename: str) -> pd.DataFrame:
+    """Import data from S3
+
+    Args:
+        filename (str): object to import
+
+    Returns:
+        pd.DataFrame: returned as dataframe
+    """
     _, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
     region_name = "us-east-1"
     s3 = boto3.resource(
@@ -124,7 +146,12 @@ def import_from_s3(filename: str):
     return df
 
 
-def check_all_files_s3():
+def check_all_files_s3() -> List:
+    """Check objects in S3 bucket
+
+    Returns:
+        List: list of files that exist in S3
+    """
     _, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
     region_name = "us-east-1"
     s3 = boto3.resource(
@@ -139,6 +166,11 @@ def check_all_files_s3():
 
 
 def gsheet_auth():
+    """Authenticate google sheet
+
+    Returns:
+        creds, client: connection object
+    """
     SCOPES = [
         "https://spreadsheets.google.com/feeds",
         'https://www.googleapis.com/auth/spreadsheets',
@@ -151,7 +183,15 @@ def gsheet_auth():
     return creds, client
 
    
-def import_from_gsheet(filename: str):
+def import_from_gsheet(filename: str) -> List:
+    """Import data from gsheet
+
+    Args:
+        filename (str): google file name
+
+    Returns:
+        data (list): data from gsheet
+    """
     _, client = gsheet_auth()
     sheet = client.open(filename).sheet1  
     data = sheet.get_all_records()      
@@ -159,6 +199,13 @@ def import_from_gsheet(filename: str):
     
 
 def export_to_gsheet(spreedsheetId: str, df: pd.DataFrame, clear_sheet: bool=False):
+    """Export data to google sheets
+
+    Args:
+        spreedsheetId (str): google sheet ID
+        df (pd.DataFrame): dataframe to write to gsheet
+        clear_sheet (bool, optional): clear sheet or not. Defaults to False.
+    """
     creds, _ = gsheet_auth()
     service = build("sheets", "v4", credentials=creds)
     df.fillna("", inplace=True)
@@ -180,6 +227,14 @@ def export_to_gsheet(spreedsheetId: str, df: pd.DataFrame, clear_sheet: bool=Fal
         ).execute()
 
 
-def process(task: str):
+def process(task: str) -> dict:
+    """Import task file to process the data from src/tools folder
+
+    Args:
+        task (str): name of the task to process
+
+    Returns:
+        dict: processed_data
+    """
     lib = importlib.import_module(f"src.tools.{task}")
     return lib.process()
