@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import matplotlib.pyplot as plt
 import pandas as pd
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-import matplotlib.pyplot as plt
 
 # read data
 df = pd.read_csv('data/merged.csv')

@@ -1,15 +1,18 @@
+import datetime
+import importlib
 import os
 import pathlib
-from pathlib import PurePath
+from io import BytesIO, StringIO
+from pathlib import Path, PurePath
 from typing import Tuple, Union
-from io import StringIO, BytesIO
-from pathlib import Path
-from dotenv import load_dotenv
 
+import boto3
+import gspread
 import pandas as pd
 import yaml
-import datetime
-import boto3
+from dotenv import load_dotenv
+from googleapiclient.discovery import build
+from oauth2client.service_account import ServiceAccountCredentials
 
 
 def get_data(input_data: pathlib.Path) -> pd.DataFrame:
@@ -89,7 +92,7 @@ def aws_auth():
 
 def upload_df_to_s3(df: pd.DataFrame, filename_prefix: str):
     
-    session, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
+    _, bucket, _, _ = aws_auth()
     key = filename_prefix + datetime.datetime.now().strftime("%Y-%m-%d") + ".csv"
     
     csv_buffer = StringIO()
@@ -105,7 +108,7 @@ def upload_df_to_s3(df: pd.DataFrame, filename_prefix: str):
 
 
 def import_from_s3(filename: str):
-    session, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
+    _, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
     region_name = "us-east-1"
     s3 = boto3.resource(
         service_name="s3",
@@ -122,7 +125,7 @@ def import_from_s3(filename: str):
 
 
 def check_all_files_s3():
-    session, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
+    _, bucket, aws_access_key_id, aws_secret_access_key = aws_auth()
     region_name = "us-east-1"
     s3 = boto3.resource(
         service_name="s3",
@@ -135,4 +138,48 @@ def check_all_files_s3():
     return files
 
 
+def gsheet_auth():
+    SCOPES = [
+        "https://spreadsheets.google.com/feeds",
+        'https://www.googleapis.com/auth/spreadsheets',
+        "https://www.googleapis.com/auth/drive.file",
+        "https://www.googleapis.com/auth/drive"
+    ]
+    
+    creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", SCOPES)
+    client = gspread.authorize(creds)
+    return creds, client
 
+   
+def import_from_gsheet(filename: str):
+    _, client = gsheet_auth()
+    sheet = client.open(filename).sheet1  
+    data = sheet.get_all_records()      
+    return data
+    
+
+def export_to_gsheet(spreedsheetId: str, df: pd.DataFrame, clear_sheet: bool=False):
+    creds, _ = gsheet_auth()
+    service = build("sheets", "v4", credentials=creds)
+    df.fillna("", inplace=True)
+    #myspreadsheets = service.spreadsheets().get(spreadsheetId=spreedsheetId).execute()
+    if clear_sheet:
+        service.spreadsheets().values().clear(
+            spreadsheetId=spreedsheetId,
+            range="A1:AA1000000",
+        ).execute()
+    else:
+        service.spreadsheets().values().update(
+            spreadsheetId=spreedsheetId,
+            valueInputOption="USER_ENTERED",
+            range="A1:AA1000000",
+            body=dict(
+                majorDimension="ROWS",
+                values=df.T.reset_index().T.values.tolist()
+            ),
+        ).execute()
+
+
+def process(task: str):
+    lib = importlib.import_module(f"src.tools.{task}")
+    return lib.process()

@@ -10,3 +10,6 @@ pytest
 boto3
 fsspec
 s3fs
+gspread 
+oauth2client
+googleapiclient

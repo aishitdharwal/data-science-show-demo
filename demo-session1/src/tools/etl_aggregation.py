@@ -6,10 +6,11 @@
 """---
 ## Section 1 - Import modules
 """
+import matplotlib.pyplot as plt
 import pandas as pd
-import matplotlib.pyplot as plt 
-from matplotlib.ticker import FuncFormatter
 import seaborn as sns
+from matplotlib.ticker import FuncFormatter
+
 plt.style.use('ggplot')
 
 

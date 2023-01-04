@@ -2,3 +2,11 @@ demo-session1/src/tools/__pycache__/utils.cpython-38.pyc
 demo-session1/.env
 demo-session1/src/tools/__pycache__/testing.cpython-38.pyc
 demo-session1/src/tools/__pycache__/import_data.cpython-38.pyc
+demo-session1/creds.json
+demo-session1/src/tools/utils.py
+.gitignore
+demo-session1/src/tools/__pycache__/process_data.cpython-38.pyc
+demo-session1/src/tools/__pycache__/predictions.cpython-38.pyc
+.DS_Store
+.gitignore
+

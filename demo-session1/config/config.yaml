@@ -29,9 +29,16 @@ cleaned_csv-to-database:
         file_extension: csv 
         prefix_filename: sales_agg
 
-testing:
+process_data:
   export:
     - export:
         host: s3
         bucket: ds-project-demo1
-        prefix_filename: prediction_
+        prefix_filename: process_
+  
+predictions:
+  export:
+    - export:
+        host: gsheet
+        clear_sheet: false
+        spreadsheet_id: 1AgkNJ9U2n3_7VeSGPCRhIzh-793N0O7PBeF-hfpYYmw
