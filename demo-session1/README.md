@@ -45,7 +45,7 @@ ___
 
 1. First create a database:
 
-            ``` python -m src/tools/upload_data_V2.py -db True -db_name 'groceries' ```
+            ``` python -m src/tools/database_V2.py -db True -db_name 'groceries' ```
 
 2. Create as many tables as you like within the database and insert data from each CSV files into their respective tables by running a single python command.
 
@@ -53,7 +53,7 @@ ___
 
     Finally, we can run the following line by providing a database and task name as an argument. 
 
-            ``` python src/tools/upload_data_V2.py -db_name 'groceries' -t "csv-to-database" ```
+            ``` python src/tools/database_V2.py -db_name 'groceries' -t "csv-to-database" ```
 
 ___
 
