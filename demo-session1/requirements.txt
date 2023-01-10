@@ -12,4 +12,4 @@ fsspec
 s3fs
 gspread 
 oauth2client
-googleapiclient
+google-api-python-client
