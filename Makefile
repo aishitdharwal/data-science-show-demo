@@ -11,7 +11,7 @@ install: venv
 		$(PYTHON) -m pip install --upgrade pip &&\
 			$(PIP) install --upgrade wheel &&\
 				$(PIP) install --upgrade setuptools &&\
-					$(PIP) install -r requirements.txt
+					$(PIP) install -r demo-session1/requirements.txt
 
 clean:
 	rm -rf __pycache__
