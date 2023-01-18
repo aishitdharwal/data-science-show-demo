@@ -23,6 +23,4 @@ if config_export[0]["export"]["host"] == 's3':
 elif config_export[0]["export"]["host"] == 'gsheet':
     export_to_gsheet(config_export[0]["export"]["spreadsheet_id"], process(args.task), 
                      config_export[0]["export"]["clear_sheet"])
-        
-
-        
+     
