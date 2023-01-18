@@ -1,0 +1,22 @@
+name: Python application test with Github Actions
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create venv
+      run: |
+       make venv
+       
+    - name: Install dependencies
+      run: |
+        make install
+    
+    - name: Clean
+      run: |
+        make clean
