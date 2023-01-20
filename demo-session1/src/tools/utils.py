@@ -36,6 +36,23 @@ def get_data_sql(database: str, table: str) -> pd.DataFrame:
         print("Error while connecting to MySQL", e)
     return df
 
+def fetch_sql_data(database: str) -> pd.DataFrame:
+    mydb = msql.connect(
+        host="localhost",
+        user="root",
+        password=mysql_pass,
+        database=database
+        )
+    
+    mycursor = mydb.cursor(buffered=True)
+    
+    fd = open('src/tools/merge_data.sql', 'r')
+    query = fd.read()
+    fd.close()
+    mycursor.execute(query)
+    df = pd.read_sql(query, mydb)
+    return df
+
 
 def get_data(input_data: pathlib.Path) -> pd.DataFrame:
     """Returns csv data as a dataframe
