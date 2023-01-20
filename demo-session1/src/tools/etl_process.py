@@ -48,7 +48,7 @@ def data_processing(sales_df: pd.DataFrame, stock_df: pd.DataFrame, temp_df: pd.
             os.mkdir(path)
         sales_agg.to_csv(os.path.join(path, "sales_agg.csv"), index=False)
         stock_agg.to_csv(os.path.join(path, "stock_agg.csv"))
-        #temp_agg.to_csv(os.path.join(path, "temp_agg.csv"))
+        temp_agg.to_csv(os.path.join(path, "temp_agg.csv"))
         # Commit and push the changes to GitHub
         os.system('git add .')
         os.system('git commit -m "added cleaned data"')
