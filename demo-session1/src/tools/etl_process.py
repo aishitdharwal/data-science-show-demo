@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-import shutil
 import warnings
 from utils import get_data_sql
 from datetime import datetime
@@ -29,7 +28,7 @@ def feature_eng(df: pd.DataFrame, column: str = None):
     df[column] = new_ts
     return df
 
-def data_processing(sales_df: pd.DataFrame, stock_df: pd.DataFrame, temp_df: pd.DataFrame, save_files_local: bool = False) -> pd.DataFrame:
+def data_processing(sales_df: pd.DataFrame, stock_df: pd.DataFrame, temp_df: pd.DataFrame, save_files: bool = False) -> pd.DataFrame:
     sales_df = feature_eng(sales_df, 'timestamp')
     stock_df = feature_eng(stock_df, 'timestamp')
     temp_df = feature_eng(temp_df, 'timestamp')
@@ -38,15 +37,22 @@ def data_processing(sales_df: pd.DataFrame, stock_df: pd.DataFrame, temp_df: pd.
     stock_agg = stock_df.groupby(['timestamp', 'product_id']).agg({'estimated_stock_pct': 'mean'}).reset_index()
     temp_agg = temp_df.groupby(['timestamp']).agg({'temperature': 'mean'}).reset_index()
     
-    if save_files_local:
-        file_path = "cleaned_data"
-        if os.path.exists(file_path):
-            shutil.rmtree(file_path)
-            #os.rmdir(file_path)
-        os.makedirs(file_path)
-        sales_agg.to_csv("cleaned_data/sales_agg.csv")
-        stock_agg.to_csv("cleaned_data/stock_agg.csv")
-        temp_agg.to_csv("cleaned_data/temp_agg.csv") 
+    if save_files:
+        #file_path = "cleaned_data"
+        #if not os.path.exists(file_path):
+         #   os.mkdir(file_path)
+        # Create the path for the folder
+        path = os.path.join(os.getcwd(), 'cleaned_data')
+        # Check if the folder exists, if not create it
+        if not os.path.exists(path):
+            os.mkdir(path)
+        sales_agg.to_csv(os.path.join(path, "sales_agg.csv"), index=False)
+        stock_agg.to_csv(os.path.join(path, "stock_agg.csv"))
+        temp_agg.to_csv(os.path.join(path, "temp_agg.csv"))
+        # Commit and push the changes to GitHub
+        os.system('git add .')
+        os.system('git commit -m "added cleaned data"')
+        os.system('git push origin main')
     return sales_agg, stock_agg, temp_agg
     
 
@@ -58,6 +64,6 @@ def process():
     sensor_storage_temperature = clean_data("groceries", "sensor_storage_temperature")
     
     # step 2
-    sales_agg, stock_agg, temp_agg = data_processing(sales, sensor_stock_levels, sensor_storage_temperature, save_files_local=False)
+    sales_agg, stock_agg, temp_agg = data_processing(sales, sensor_stock_levels, sensor_storage_temperature, save_files=False)
     
     return print("ETL PROCESS COMPLETED!")
