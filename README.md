@@ -7,3 +7,12 @@ There is an abundance of AI based projects that one could think of in e-commerce
 
 > # Problem Statement
 > Based on the data provided, can we accurately predict the stock levels of products?
+
+
+
+<br><br>
+<hr>
+
+#### continuous integration
+
+[![Python application test with Github Actions](https://github.com/mitulds/data-science-show-demo/actions/workflows/github-actions.yml/badge.svg)](https://github.com/mitulds/data-science-show-demo/actions/workflows/github-actions.yml)
