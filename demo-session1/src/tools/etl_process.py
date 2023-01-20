@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import shutil
 import warnings
 from utils import get_data_sql
 from datetime import datetime
@@ -38,15 +39,14 @@ def data_processing(sales_df: pd.DataFrame, stock_df: pd.DataFrame, temp_df: pd.
     temp_agg = temp_df.groupby(['timestamp']).agg({'temperature': 'mean'}).reset_index()
     
     if save_files:
-        file_path = "./cleaned_data"
+        file_path = "cleaned_data"
         if os.path.exists(file_path):
-            os.rmdir(file_path)
+            shutil.rmtree(file_path)
+            #os.rmdir(file_path)
         os.makedirs(file_path)
-        sales_agg.to_csv("./cleaned_data/sales_agg.csv")
-        stock_agg.to_csv("./cleaned_data/stock_agg.csv")
-        temp_agg.to_csv("./cleaned_data/temp_agg.csv") 
-        
-    
+        sales_agg.to_csv("cleaned_data/sales_agg.csv")
+        stock_agg.to_csv("cleaned_data/stock_agg.csv")
+        temp_agg.to_csv("cleaned_data/temp_agg.csv") 
     return sales_agg, stock_agg, temp_agg
     
 
