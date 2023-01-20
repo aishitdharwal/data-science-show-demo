@@ -42,7 +42,7 @@ def data_processing(sales_df: pd.DataFrame, stock_df: pd.DataFrame, temp_df: pd.
         #if not os.path.exists(file_path):
          #   os.mkdir(file_path)
         # Create the path for the folder
-        path = os.path.join(os.getcwd(), 'cleaned_data_2')
+        path = os.path.join(os.getcwd(), 'cleaned_data')
         # Check if the folder exists, if not create it
         if not os.path.exists(path):
             os.mkdir(path)
@@ -51,7 +51,7 @@ def data_processing(sales_df: pd.DataFrame, stock_df: pd.DataFrame, temp_df: pd.
         #temp_agg.to_csv(os.path.join(path, "temp_agg.csv"))
         # Commit and push the changes to GitHub
         os.system('git add .')
-        os.system('git commit -m "added cleaned data 2"')
+        os.system('git commit -m "added cleaned data"')
         os.system('git push origin main')
     return sales_agg, stock_agg, temp_agg
     
