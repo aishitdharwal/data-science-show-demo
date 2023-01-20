@@ -10,9 +10,31 @@ import boto3
 import gspread
 import pandas as pd
 import yaml
+import mysql.connector as msql
+from mysql.connector import Error
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
+
+# read mysql password --------------------------------------------------------------
+env_path = Path("./.env")
+load_dotenv(dotenv_path=env_path)
+mysql_pass = os.getenv("MYSQL_PASS")
+
+# helper functions --------------------------------------------------------------
+def get_data_sql(database: str, table: str) -> pd.DataFrame:
+    try:
+        conn = msql.connect(host='localhost',
+                            user='root',
+                            password=mysql_pass,
+                            database=database)
+        if conn.is_connected():
+            query = f'SELECT * FROM {table}'
+            print(f"Fetching {table} from {database} database")
+            df = pd.read_sql(query, con=conn)
+    except Error as e:
+        print("Error while connecting to MySQL", e)
+    return df
 
 
 def get_data(input_data: pathlib.Path) -> pd.DataFrame:
