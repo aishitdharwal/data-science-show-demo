@@ -42,6 +42,5 @@ def run_model(df):
     
     prediction_df = pd.concat(prediction_df_list)
     raw_df = get_data_sql(database='groceries', table='sales')
-    #merge the above 2
     
     prediction_df.to_csv('data/prediction_data.csv')
