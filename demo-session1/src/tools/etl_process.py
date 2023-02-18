@@ -57,6 +57,6 @@ def process():
     sensor_storage_temperature = clean_data("groceries", "sensor_storage_temperature")
     
     # step 2
-    sales_agg, stock_agg, temp_agg = data_processing(sales, sensor_stock_levels, sensor_storage_temperature, save_files=False)
+    sales_agg, stock_agg, temp_agg = data_processing(sales, sensor_stock_levels, sensor_storage_temperature, save_files=True)
     
     return print("ETL PROCESS COMPLETED!")

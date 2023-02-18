@@ -65,6 +65,13 @@ ___
 >
 > - -t : task name (str)
 
+<br>
+
+---
+
+<br>
+Note:
+<p> In order to upload cleaned version of the data to Database 2. First, run `etl_process.py` locally -> this will do the etl process and save processed data in a new folder -> push this folder to github -> then run the etl job from jenkins.
 
 <br>
 
