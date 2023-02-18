@@ -40,6 +40,11 @@ if args.create_db:
             print("Databases exist: ", record)
     except Error as e:
         print("Error while connecting to MySQL", e)
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+            print("MySQL connection is closed")
 # create a table in the database -----------
 else:
     # loop through each task in config.yaml 
@@ -73,4 +78,9 @@ else:
                 print("Record inserted")
         except Error as e:
             print("Error while connecting to MySQL", e)
+        finally:
+            if conn.is_connected():
+                cursor.close()
+                conn.close()
+                print("MySQL connection is closed")
 

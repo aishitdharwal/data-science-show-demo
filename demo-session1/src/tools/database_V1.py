@@ -36,6 +36,11 @@ if args.create_db:
             #conn.close()
     except Error as e:
         print("Error while connecting to MySQL", e)
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+            print("MySQL connection is closed")
 # create a table in the database
 else:
     # define variables
@@ -65,3 +70,8 @@ else:
             print("Record inserted")
     except Error as e:
         print("Error while connecting to MySQL", e)
+    finally:
+        if conn.is_connected():
+            cursor.close()
+            conn.close()
+            print("MySQL connection is closed")
