@@ -61,8 +61,8 @@ else:
         df = get_data(input_data)
         col_type, values = create_db_schema(df)
         try:
-            conn = msql.connect(host='localhost',
-                                user='root',
+            conn = msql.connect(host=mysql_host,
+                                user=mysql_user,
                                 password=mysql_pass)
             if conn.is_connected():
                 cursor = conn.cursor()
