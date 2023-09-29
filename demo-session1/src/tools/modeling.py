@@ -44,3 +44,9 @@ def run_model(df):
     raw_df = get_data_sql(database='groceries', table='sales')
     
     prediction_df.to_csv('data/prediction_data.csv')
+def process():
+    # read data
+    df = fetch_sql_data("cleaned_groceries")
+    df.index = pd.to_datetime(df['timestamp'])
+    df['quantity'].fillna(0, inplace=True)
+    
