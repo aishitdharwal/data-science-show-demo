@@ -20,12 +20,14 @@ from oauth2client.service_account import ServiceAccountCredentials
 env_path = Path("./.env")
 load_dotenv(dotenv_path=env_path)
 mysql_pass = os.getenv("MYSQL_PASS")
+mysql_host = os.getenv("MYSQL_HOST")
+mysql_user = os.getenv("MYSQL_USER")
 
 # helper functions --------------------------------------------------------------
 def get_data_sql(database: str, table: str) -> pd.DataFrame:
     try:
-        conn = msql.connect(host='localhost',
-                            user='root',
+        conn = msql.connect(host=mysql_host,
+                            user=mysql_user,
                             password=mysql_pass,
                             database=database)
         if conn.is_connected():
