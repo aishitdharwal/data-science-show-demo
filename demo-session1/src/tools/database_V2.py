@@ -22,13 +22,15 @@ config = load_yaml("./config/config.yaml")
 env_path = Path("./.env")
 load_dotenv(dotenv_path=env_path)
 mysql_pass = os.getenv("MYSQL_PASS")
+mysql_host = os.getenv("MYSQL_HOST")
+mysql_user = os.getenv("MYSQL_USER")
 
 # Main --------------------------------------------------------------
 # create a database -----------
 if args.create_db:
     try:
-        conn = msql.connect(host='localhost',
-                            user='root',
+        conn = msql.connect(host=mysql_host,
+                            user=mysql_user,
                             password=mysql_pass)
         if conn.is_connected():
             cursor = conn.cursor()
